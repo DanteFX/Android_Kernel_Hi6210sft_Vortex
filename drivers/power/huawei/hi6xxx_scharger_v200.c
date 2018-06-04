@@ -60,6 +60,9 @@
 #else
 #define STATIC static
 #endif
+#ifdef CONFIG_FORCE_FAST_CHARGE
+#include <linux/fastchg.h>
+#endif
 /*
 #undef dev_info
 #define dev_info dev_err
@@ -288,6 +291,13 @@ STATIC unsigned int cin_limit_temp = 1;
 STATIC unsigned int charge_current_temp = 1;
 
 STATIC u32 is_board_type = 0;
+
+#ifdef CONFIG_FORCE_FAST_CHARGE
+	if (force_fast_charge > 0 && icl_ua == USBIN_500MA)
+	{
+		icl_ua = USBIN_900MA;
+	}
+#endif
 
 /*Customize variable for modules that linked to Scharger*/
 static unsigned int customized_config_by_product = 0;
@@ -1471,7 +1481,7 @@ STATIC void hi6521_config_opt_param(struct hi6521_device_info *di)
 	if (((0 == chg_version) && (1 == v210_fx)) ||
 		((0 == chg_version) && (2 == v210_fx)) ||
 		((0 == chg_version) && (3 == v210_fx)) ||
-		((2 == chg_version) && (3 == v210_fx))) { /*215-220,开启反向放电的ocp*/
+		((2 == chg_version) && (3 == v210_fx))) { /*215-220,\BF\AA\C6\F4\B7\B4\CF\F2\B7诺\E7\B5\C4ocp*/
 
 		hi6521_write_byte(di, 0x18, 0x63);
 	}
@@ -1964,7 +1974,7 @@ STATIC void hi6521_calling_limit_ac_input_current(struct hi6521_device_info *di,
            } else {
                iin_temp = di->max_cin_currentmA;
                /* battery whose max_voltage is above 4.35V is easy to broken
-                  when the temperature is below 10℃.
+                  when the temperature is below 10\A1\E6.
                   So we need set the Current below 0.x * Capacity. */
                ichg_temp = di->design_capacity / 10 * di->charge_in_temp_5;
            }
@@ -2444,7 +2454,7 @@ STATIC void hi6521_monitor_battery_ntc_charging(struct hi6521_device_info *di)
     return;
 }
 
-#if 1 /*V8打桩*/
+#if 1 /*V8\B4\F2桩*/
 STATIC int hi6521_check_backup_battery_exist(struct hi6521_device_info *di)
 {
 	return 0;
