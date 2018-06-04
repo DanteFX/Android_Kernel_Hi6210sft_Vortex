@@ -58,3 +58,4 @@ obj-$(CONFIG_SRAM)		+= sram.o
 obj-$(CONFIG_UID_CPUTIME) += uid_cputime.o
 obj-$(CONFIG_APANIC_MMC)	+= apanic_mmc.o
 obj-$(CONFIG_DRV2605)	+= drv2605/
+obj-$(CONFIG_FORCE_FAST_CHARGE) += fastchg.o
